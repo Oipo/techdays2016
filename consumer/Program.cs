@@ -9,6 +9,10 @@ namespace consumer
     {
         public static void Main(string[] args)
         {
+            KafkaConsumer consumer = new KafkaConsumer("localhost:9092");
+            Console.WriteLine("Started consumer. Press enter to stop consuming.");
+
+            Console.ReadLine();
         }
     }
 }

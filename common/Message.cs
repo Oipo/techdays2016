@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace producer
+namespace common
 {
     public class Message
     {

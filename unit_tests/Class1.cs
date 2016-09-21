@@ -1,4 +1,4 @@
-﻿using tech_days_2016;
+﻿using common;
 using Xunit;
 using FluentAssertions;
 

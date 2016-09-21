@@ -8,6 +8,9 @@
       "type": "platform",
       "version": "1.0.0"
     },
+    "common": {
+      "target": "project"
+    },
     "RdKafka": "0.9.1"
   },
   "frameworks": {

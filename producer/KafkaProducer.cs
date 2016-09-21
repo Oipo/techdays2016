@@ -1,5 +1,7 @@
 ﻿using System;
 using RdKafka;
+using common;
+
 namespace producer
 {
     public class KafkaProducer : IDisposable
@@ -14,7 +16,7 @@ namespace producer
             _topic = _producer.Topic("test");
         }
 
-        public void Send(Message msg)
+        public void Send(common.Message msg)
         {
             _topic.Produce(msg.Serialize());
         }
