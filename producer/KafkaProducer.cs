@@ -10,10 +10,10 @@ namespace producer
         private Producer _producer { get; set; }
         private Topic _topic { get; set; }
 
-        public KafkaProducer(string brokerList)
+        public KafkaProducer(string brokerList, string topic)
         {
             _producer = new Producer(brokerList);
-            _topic = _producer.Topic("test");
+            _topic = _producer.Topic(topic);
         }
 
         public void Send(common.Message msg)
