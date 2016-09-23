@@ -1,7 +1,7 @@
 # techdays2016
 Demo code for An Intro Into Scalable, High-Performance Messaging in .NET
 
-# C#
+# C&#35;
 Needs dotnet core v1.0.
 
 Compile with:
