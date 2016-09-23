@@ -28,6 +28,17 @@ Client performance on a scaleway C2S (Avoton 2550, 8G RAM, networked SSD):
 947k/sec or 144,5 mbit/sec
 ```
 
+or if we increase the payload:
+```
+250 bytes payload (average)
+
+10m strcopy 1 server 1 proc each 1 thread each 93s
+108k/sec or 206,0 mbit/s
+
+20m strcopy 1 server 1 proc each 2 thread each 138s
+145k/sec or 276,6 mbit/s
+```
+
 # C++
 Needs librdkafka.
 
@@ -58,9 +69,18 @@ Client performance on a scaleway C2S (Avoton 2550, 8G RAM, networked SSD):
 2093k/sec or 319,4 mbit/sec
 ```
 
+or if we increase the payload:
+```
+250 bytes payload (average)
+
+10m strcopy 1 server 1 proc each 1 thread each 61s
+164k/sec or 312,8 mbit/s
+```
 # Performance notes
 
-These "performance tests" are probably done reasonably badly. The goal of these tests were to get a general grasp of performance on a cheap dedicated VPS-like server. Still though, for one threaded producers, the C# version is about 61% slower and for
+These "performance tests" are probably done reasonably badly. The goal of these tests were to get a general grasp of performance on a cheap dedicated VPS-like server. Having said that, for small message and one threaded producers, the C# version is about 2/3rds slower and for multi-process runs about 3/4ths. As soon as we turn up the payload however, the difference gets a lot smaller.
+
+It would definitely be interesting profiling the differences, but two things that are undoubtedly influencing the numbers is 1) marshalling and interop in general and 2) simply having more callbacks registered than the C++ version. This mainly gives the C# version a higher CPU usage than the C++ version, leading to the behaviour we see: significantly lower messages/s for small messages but similar messages/s for bigger payloads.
 
 # License
 
