@@ -9,11 +9,15 @@ namespace consumer
     {
         private bool _disposed { get; set; }
         private EventConsumer _consumer { get; set; }
+        private int _i { get; set; }
+        private string _topicName { get; set; }
 
-        public KafkaConsumer(string brokerlist)
+        public KafkaConsumer(string brokerlist, string topic)
         {
             var config = new Config { GroupId = "group" };
             _consumer = new EventConsumer(config, brokerlist);
+            _topicName = topic;
+            _i = 0;
 
             _consumer.OnMessage += (sender, message) =>
             {
@@ -22,12 +26,17 @@ namespace consumer
                     return;
                 }
 
-                var msg = common.Message.Deserialize(message.Payload);
-                Console.WriteLine($"received msg: {msg.Title} - {msg.Body} - {msg.DeviceId}");
+                _i++;
+
+                if(_i % 5000 == 0)
+                {
+                    var msg = common.Message.Deserialize(message.Payload);
+                    Console.WriteLine($"Topic {_topicName} received msg: {msg.Title} - {msg.Body} - {msg.DeviceId}");
+                }
             };
 
-            //_consumer.Subscribe(new List<string>{"test"});
-            _consumer.Assign(new List<TopicPartitionOffset>{new TopicPartitionOffset("test", 0, Offset.End)});
+            //_consumer.Subscribe(new List<string>{topic});
+            _consumer.Assign(new List<TopicPartitionOffset>{new TopicPartitionOffset(topic, 0, Offset.End)});
             _consumer.Start();
         }
 
