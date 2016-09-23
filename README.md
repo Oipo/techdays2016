@@ -78,7 +78,7 @@ or if we increase the payload:
 ```
 # Performance notes
 
-These "performance tests" are probably done reasonably badly. The goal of these tests were to get a general grasp of performance on a cheap dedicated VPS-like server. Having said that, for small message and one threaded producers, the C# version is about 2/3rds slower and for multi-process runs about 3/4ths. As soon as we turn up the payload however, the difference gets a lot smaller.
+These "performance tests" are probably done reasonably badly. The goal of these tests were to get a general grasp of performance on a cheap dedicated VPS-like server. Having said that, for small message and one threaded producers, the C# version is about 2/3rds slower and for multi-process runs about 3/4ths. As soon as we turn up the payload however, the difference gets smaller and would probably be insignificant once the network card is saturated.
 
 It would definitely be interesting profiling the differences, but two things that are undoubtedly influencing the numbers is 1) marshalling and interop in general and 2) simply having more callbacks registered than the C++ version. This mainly gives the C# version a higher CPU usage than the C++ version, leading to the behaviour we see: significantly lower messages/s for small messages but similar messages/s for bigger payloads.
 
