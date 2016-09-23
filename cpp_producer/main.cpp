@@ -106,17 +106,11 @@ class MyHashPartitionerCb : public RdKafka::PartitionerCb {
   }
 };
 
-int msgs_delivered = 0;
 class ExampleDeliveryReportCb : public RdKafka::DeliveryReportCb {
  public:
   void dr_cb (RdKafka::Message &message) {
-      msgs_delivered++;
-
-      if(msgs_delivered % 100 == 0) {
-        std::cout << "Message " << msgs_delivered << " delivery for (" << message.len() << " bytes): " <<
-            message.errstr() << std::endl;
-        if (message.key())
-          std::cout << "Key: " << *(message.key()) << ";" << std::endl;
+      if(message.err() != RdKafka::ERR_NO_ERROR) {
+          std::cout << "Message delivery for (" << message.len() << " bytes): " << message.errstr() << std::endl;
       }
   }
 };
@@ -143,7 +137,7 @@ int main() {
     conf->set("event_cb", &ex_event_cb, errstr);
 
     // Delivery report callback
-    //conf->set("dr_cb", &ex_dr_cb, errstr);
+    conf->set("dr_cb", &ex_dr_cb, errstr);
 
     // partitioner_cb ?
     if (tconf->set("partitioner_cb", &hash_partitioner, errstr) != RdKafka::Conf::CONF_OK) {
